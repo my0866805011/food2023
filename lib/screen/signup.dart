@@ -9,6 +9,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+
+  String mcType = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,15 +23,36 @@ class _SignUpState extends State<SignUp> {
           MyStyle().mySizeBox(),
           appName(),
           MyStyle().mySizeBox(),
+          nameForm(),
+          MyStyle().mySizeBox(),
           userForm(),
           MyStyle().mySizeBox(),
           passwordForm(),
+          MyStyle().mySizeBox(),
+          userRadio(),
 
 
 
         ],
       ),
    );
+  }
+
+  Row userRadio() {
+    return Row(
+          children: <Widget>[
+            Radio(value: 'User', 
+            groupValue: mcType, 
+            onChanged: (value) {
+              setState(() {
+                mcType = value!;
+              });
+            },
+          ),Text('ผ้สั่งสินค้า',
+          style: TextStyle(color: MyStyle().darkColor),
+          ),
+         ],
+        );
   }
 
   Row appName() {
@@ -48,41 +71,69 @@ class _SignUpState extends State<SignUp> {
     ],
   );
 
-Widget userForm() => Container(width: 250.0,
-   child: TextField(
-    decoration: InputDecoration(
-      prefixIcon: Icon(Icons.account_box,
-      color: MyStyle().darkColor,        
+Widget nameForm() => Row(mainAxisAlignment: MainAxisAlignment.center,
+  children: <Widget> [
+       Container(width: 250.0,
+       child: TextField(
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.face,
+          color: MyStyle().darkColor,        
+          ),
+          labelStyle: TextStyle(color: MyStyle().darkColor),
+          labelText: 'Name:',
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyStyle().darkColor)),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyStyle().primaryColor),
+          ),
+        ),
       ),
-      labelStyle: TextStyle(color: MyStyle().darkColor),
-      labelText: 'User :',
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: MyStyle().darkColor)),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: MyStyle().primaryColor),
+     ),
+  ],
+);
+
+Widget userForm() => Row(mainAxisAlignment: MainAxisAlignment.center,
+  children:<Widget> [
+        Container(width: 250.0,
+       child: TextField(
+        decoration: InputDecoration(
+          prefixIcon: Icon(Icons.account_box,
+          color: MyStyle().darkColor,        
+          ),
+          labelStyle: TextStyle(color: MyStyle().darkColor),
+          labelText: 'User :',
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyStyle().darkColor)),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: MyStyle().primaryColor),
+          ),
+        ),
       ),
-    ),
-  ),
- );
+     ),
+  ],
+);
 
 
-
-Widget passwordForm() => Container(width: 250.0,
-   child: TextField(obscureText: true,
-    decoration: InputDecoration(
-      prefixIcon: Icon(Icons.lock,
-      color: MyStyle().darkColor,        
-      ),
-      labelStyle: TextStyle(color: MyStyle().darkColor),
-      labelText: 'Password :',
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: MyStyle().darkColor)),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: MyStyle().primaryColor),
-      ),
-    ),
-  )
- );
+Widget passwordForm() =>Row(mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(width: 250.0,
+       child: TextField(obscureText: true,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.lock,
+              color: MyStyle().darkColor,        
+              ),
+              labelStyle: TextStyle(color: MyStyle().darkColor),
+              labelText: 'Password :',
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyStyle().darkColor)),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: MyStyle().primaryColor),
+              ),
+            ),
+      )
+     ),
+   ],
+);
 
 }
 
