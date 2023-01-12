@@ -16,20 +16,80 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         title: Text('SignIn'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            MyStyle().showLogo(),
-            MyStyle().showTitle('app food2023'),
-            useForm()
-          ],
+      body: Container(decoration: BoxDecoration(
+        gradient: RadialGradient(
+          colors: <Color>[Colors.white,MyStyle().primaryColor],
+          center: Alignment(0,-03),
+          radius: 1.0,
+          )
+      ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                MyStyle().showLogo(),
+                MyStyle().mySizeBox(),
+                MyStyle().showTitle('app food2023'),
+                useForm(),
+                MyStyle().mySizeBox() ,
+                passwordForm(),
+                MyStyle().mySizeBox(),
+                LoginButton(),
+                
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
+  Widget LoginButton() => Container(
+    width: 250.0,
+    child: ElevatedButton(    
+      onPressed: () {}, 
+      child: Text('Login',
+      style: TextStyle(color: Colors.white),
+      ),
+    ),
+  );
+
+ 
 Widget useForm() => Container(width: 250.0,
-   child: TextField(),
-);
+   child: TextField(
+    decoration: InputDecoration(
+      prefixIcon: Icon(Icons.account_box,
+      color: MyStyle().darkColor,        
+      ),
+      labelStyle: TextStyle(color: MyStyle().darkColor),
+      labelText: 'User :',
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: MyStyle().darkColor)),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: MyStyle().primaryColor),
+      ),
+    ),
+  ),
+ );
+
+
+
+Widget passwordForm() => Container(width: 250.0,
+   child: TextField(obscureText: true,
+    decoration: InputDecoration(
+      prefixIcon: Icon(Icons.lock,
+      color: MyStyle().darkColor,        
+      ),
+      labelStyle: TextStyle(color: MyStyle().darkColor),
+      labelText: 'Password :',
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: MyStyle().darkColor)),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: MyStyle().primaryColor),
+      ),
+    ),
+  )
+ );
+
 }
