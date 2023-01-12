@@ -19,7 +19,7 @@ class _SignInState extends State<SignIn> {
       body: Container(decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: <Color>[Colors.white,MyStyle().primaryColor],
-          center: Alignment(0,-03),
+          center: Alignment(0,-0.5),
           radius: 1.0,
           )
       ),
