@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food2023/main.dart';
 import 'package:food2023/utility/my_style.dart';
+import 'package:food2023/utility/normal_dialog.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -10,7 +11,12 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  String mcType = '';
+
+  String mcType = '*';
+  String mcName = '*';
+  String mcUser = '*';
+  String mcPassword = '*';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +36,7 @@ class _SignUpState extends State<SignUp> {
           MyStyle().mySizeBox(),
           passwordForm(),
           MyStyle().mySizeBox(),
+          MyStyle().showTitle2('เลือกประเภท สมาชิก'),
           userRadio(),
           shopRadio(),
           riderRadio(),
@@ -43,7 +50,21 @@ class _SignUpState extends State<SignUp> {
 Widget registerButton() => Container(
     width: 250.0,
     child: ElevatedButton(    
-      onPressed: () {}, 
+      onPressed: () {
+        print('name = $mcName, User = $mcUser, password = $mcPassword, type =$mcType');
+        if (mcName == '*' || mcUser == '*' || mcPassword == '*' || mcType=='*') 
+          {
+          normalDialog(context, 'กรุณาตรวจสอบข้อมูล ไม่ถูกต้อง');
+          }
+
+        if (mcName.isEmpty || mcUser.isEmpty || mcPassword.isEmpty || mcType.isEmpty)
+        {
+          normalDialog(context, 'กรุณาตรวจสอบข้อมูล ไม่ถูกต้อง');
+
+        }  
+        
+      }, 
+      
       child: Text('Registor',
       style: TextStyle(color: Colors.white),
       ),
@@ -149,7 +170,7 @@ Widget registerButton() => Container(
         children: <Widget>[
           Container(
             width: 250.0,
-            child: TextField(
+            child: TextField(onChanged: (value) => mcName = value.trim(),
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.face,
@@ -173,7 +194,7 @@ Widget registerButton() => Container(
         children: <Widget>[
           Container(
             width: 250.0,
-            child: TextField(
+            child: TextField(onChanged: (value) => mcUser = value.trim(),
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.account_box,
@@ -197,7 +218,7 @@ Widget registerButton() => Container(
         children: <Widget>[
           Container(
               width: 250.0,
-              child: TextField(
+              child: TextField(onChanged: (value) => mcPassword = value.trim(),
                 obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(

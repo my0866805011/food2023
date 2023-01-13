@@ -19,6 +19,17 @@ SizedBox mySizeBox() => SizedBox(
   ),
 );
 
+
+ Text showTitle2(String title) => Text(
+  title,
+  style: TextStyle(
+    fontSize: 16.0,
+    color: Color.fromARGB(255, 221, 19, 12),
+    fontWeight: FontWeight.bold,
+  ),
+);
+
+
   Container showLogo() {
     return Container(
       width: 120.0,
