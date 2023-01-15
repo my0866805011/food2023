@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:food2023/main.dart';
 import 'package:food2023/utility/my_style.dart';
@@ -55,12 +56,11 @@ Widget registerButton() => Container(
         if (mcName == '*' || mcUser == '*' || mcPassword == '*' || mcType=='*') 
           {
           normalDialog(context, 'กรุณาตรวจสอบข้อมูล ไม่ถูกต้อง');
-          }
+        }
 
         if (mcName.isEmpty || mcUser.isEmpty || mcPassword.isEmpty || mcType.isEmpty)
         {
           normalDialog(context, 'กรุณาตรวจสอบข้อมูล ไม่ถูกต้อง');
-
         }  
         
       }, 
@@ -70,6 +70,11 @@ Widget registerButton() => Container(
       ),
     ),
   );
+
+//
+//String url='https://www.57ans.com/appfood/getUserWhereUser.php?isAdd=true&user=$user';
+  
+
 
 
   Widget userRadio() => Row(
