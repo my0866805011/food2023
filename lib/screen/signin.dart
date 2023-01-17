@@ -1,4 +1,14 @@
+// ignore_for_file: unnecessary_null_comparison
+
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:food2023/screen/main_rider.dart';
+import 'package:food2023/screen/main_shop.dart';
+import 'package:food2023/screen/main_user.dart';
+import 'package:food2023/utility/normal_dialog.dart';
+import 'package:food2023/utility/user_model.dart';
 
 import '../utility/my_style.dart';
 
@@ -10,6 +20,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+
+String mcUser ='*';
+String mcPassword = '*';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,16 +62,64 @@ class _SignInState extends State<SignIn> {
   Widget LoginButton() => Container(
     width: 250.0,
     child: ElevatedButton(    
-      onPressed: () {}, 
+      onPressed: () {
+        print('mcUser = $mcUser');
+        print('mcPassword = $mcPassword');
+        if (mcUser == null || mcUser.isEmpty || mcPassword == null ||mcPassword.isEmpty) {
+          normalDialog(context, 'ข้อมูลไม่ถูกต้อง');
+        } else {
+          checkAuthen();
+
+        }
+
+      }, 
       child: Text('Login',
       style: TextStyle(color: Colors.white),
       ),
     ),
   );
 
+Future<Null> checkAuthen() async {
+  String url='https://www.57ans.com/appfood/getUserWhereUser.php?isAdd=true&user=$mcUser';
+  try {
+    Response response = await Dio().get(url);
+    print('res = $response');
+    var result = json.decode(response.data);
+    print('result = $result');
+    for (var map in result) {
+      UserModel muserModel = UserModel.fromJson(map);
+      if (mcPassword == muserModel.password) {
+        String? mcType = muserModel.type;
+        if (mcType == 'User') {
+          routeToService(MainUser());
+        } else if (mcType == 'shop'){
+          routeToService(MainShop());
+        } else if(mcType == 'Rider'){
+          routeToService(MainRider());
+        } else {
+          normalDialog(context, 'Error');
+        }
+
+
+      } else {
+        normalDialog(context, 'Password ไม่ถูกต้อง');
+      }
+    }
+
+  } catch (e) {
+  }
+
+}
+
+void routeToService(Widget myWidget) {
+  MaterialPageRoute route = MaterialPageRoute(
+    builder: (context) => myWidget,
+   );
+  Navigator.pushAndRemoveUntil(context, route, (route) => false);
+}
  
 Widget useForm() => Container(width: 250.0,
-   child: TextField(
+   child: TextField(onChanged: (value) => mcUser =value.toString().trim(),
     decoration: InputDecoration(
       prefixIcon: Icon(Icons.account_box,
       color: MyStyle().darkColor,        
@@ -76,7 +138,8 @@ Widget useForm() => Container(width: 250.0,
 
 
 Widget passwordForm() => Container(width: 250.0,
-   child: TextField(obscureText: true,
+   child: TextField(onChanged: (value) => mcPassword = value.toString().trim(),
+    obscureText: true,
     decoration: InputDecoration(
       prefixIcon: Icon(Icons.lock,
       color: MyStyle().darkColor,        

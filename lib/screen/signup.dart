@@ -1,6 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:food2023/main.dart';
 import 'package:food2023/utility/my_style.dart';
 import 'package:food2023/utility/normal_dialog.dart';
 
@@ -62,20 +63,58 @@ Widget registerButton() => Container(
         {
           normalDialog(context, 'กรุณาตรวจสอบข้อมูล ไม่ถูกต้อง');
         }  
-        
+        checkUser();
       }, 
       
-      child: Text('Registor',
+      child: const Text('Registor',
       style: TextStyle(color: Colors.white),
       ),
     ),
   );
 
 //
-//String url='https://www.57ans.com/appfood/getUserWhereUser.php?isAdd=true&user=$user';
+//String url='https://www.57ans.com/appfood/getUserWhereUser.php?isAdd=true&user=$mcUser';
+//
+ // String url = 'https://www.57ans.com/appfood/insertuser.php?isAdd=true&name=$name&type=$chooseType&user=$user&password=$password';
+
+Future<Null> checkUser()async{
+  String url='https://www.57ans.com/appfood/getUserWhereUser.php?isAdd=true&user=$mcUser';
+  try {
+    Response response = await Dio().get(url);
+    print('res = $response');
+
+    if (response.toString().trim() == 'null') {
+      registerThread();
+    }else {
+      normalDialog(context, 'User = $mcUser ซ้ำ');
+
+    }
+    
+  } catch (e) {
+    
+  }
+
+}
+
+
+
+Future<Null> registerThread()async{
+ String url = 'https://www.57ans.com/appfood/insertuser.php?isAdd=true&name=$mcName&type=$mcType&user=$mcUser&password=$mcPassword';
+
+try {
+  Response response = await Dio().get(url);
+  print('res = $response');
+  if (response.toString().trim() == 'true') {
+        Navigator.pop(context);
+        
+      } else {
+        normalDialog(context, 'Error ลองใหม่');
+      }  
+  } catch (e) {
   
+  }
 
-
+}
 
   Widget userRadio() => Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -89,7 +128,7 @@ Widget registerButton() => Container(
                   groupValue: mcType,
                   onChanged: (value) {
                     setState(() {
-                      mcType = value!;
+                      mcType = value.toString().trim();
                     });
                   },
                 ),
@@ -115,7 +154,7 @@ Widget registerButton() => Container(
                   groupValue: mcType,
                   onChanged: (value) {
                     setState(() {
-                      mcType = value!;
+                      mcType = value.toString().trim();
                     });
                   },
                 ),
@@ -141,7 +180,7 @@ Widget registerButton() => Container(
                   groupValue: mcType,
                   onChanged: (value) {
                     setState(() {
-                      mcType = value!;
+                      mcType = value.toString().trim();
                     });
                   },
                 ),
