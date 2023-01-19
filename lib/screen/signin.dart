@@ -9,6 +9,7 @@ import 'package:food2023/screen/main_shop.dart';
 import 'package:food2023/screen/main_user.dart';
 import 'package:food2023/utility/normal_dialog.dart';
 import 'package:food2023/utility/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utility/my_style.dart';
 
@@ -91,11 +92,11 @@ Future<Null> checkAuthen() async {
       if (mcPassword == muserModel.password) {
         String? mcType = muserModel.type;
         if (mcType == 'User') {
-          routeToService(MainUser());
+          routeToService(MainUser(),muserModel);
         } else if (mcType == 'shop'){
-          routeToService(MainShop());
+          routeToService(MainShop(),muserModel);
         } else if(mcType == 'Rider'){
-          routeToService(MainRider());
+          routeToService(MainRider(),muserModel);
         } else {
           normalDialog(context, 'Error');
         }
@@ -111,7 +112,13 @@ Future<Null> checkAuthen() async {
 
 }
 
-void routeToService(Widget myWidget) {
+Future<Null> routeToService(Widget myWidget,UserModel muserModel) async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  preferences.setString('id', muserModel.id.toString());
+  preferences.setString('type',muserModel.type.toString() );
+  preferences.setString('name',muserModel.name.toString() );
+
+
   MaterialPageRoute route = MaterialPageRoute(
     builder: (context) => myWidget,
    );

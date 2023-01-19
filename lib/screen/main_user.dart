@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class MainUser extends StatefulWidget {
   const MainUser({super.key});
 
@@ -7,10 +8,27 @@ class MainUser extends StatefulWidget {
 }
 
 class _MainUserState extends State<MainUser> {
+  String nameUser ='';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    findUser();
+  }
+  
+  Future<Null> findUser() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      nameUser = preferences.getString('Name')!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Main User'),),
+      appBar: AppBar(title: Text('สวัสดี $nameUser'),
+      ),
     );
   }
 }
